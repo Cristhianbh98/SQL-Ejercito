@@ -3,30 +3,28 @@
 DELIMITER //
 
 CREATE PROCEDURE cursor_brigadas()
+
 BEGIN
+    declare done int default 0;
+    DECLARE batallon VARCHAR(20);
+    DECLARE batallones CURSOR FOR SELECT `BATALLON_ALIAS` FROM `entrenamiento`,`BATALLON` WHERE entrenamiento.`CALIFICACION_ID` = 1 AND BATALLON.`BATALLON_ID` = entrenamiento.`BATALLON_ID` GROUP BY BATALLON.`BATALLON_ID`;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
     
-    DECLARE counter BIGINT DEFAULT 0;
-    DECLARE total_calificaciones BIGINT DEFAULT 0;
-    DECLARE calificaciones CURSOR FOR SELECT count(*) FROM ejercito.`entrenamiento` WHERE entrenamiento.`CALIFICACION_ID` = 1;
+    OPEN batallones;
 
-    OPEN calificaciones;
+    simple_loop: LOOP
 
-
-    read_loop: LOOP
-
-        FETCH calificaciones INTO total_calificaciones;
-
-        IF counter>total_calificaciones THEN
-            LEAVE read_loop;
+        FETCH batallones INTO batallon;
+        IF done THEN
+            LEAVE simple_loop;
         END IF;
 
-        SELECT total_calificaciones;
-        SET counter=counter+1;
+        select batallon;
 
-    END LOOP;
+    END LOOP simple_loop;
 
-    CLOSE calificaciones;
-
+    CLOSE batallones;
+    
 END; //
 
 DELIMITER ;
