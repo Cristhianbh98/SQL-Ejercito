@@ -1,4 +1,4 @@
-/*Realizar un cursor que me permita saber las brigadas que han sido castigadas por calificación regular, cuántas veces han sido castigadas y el total de brigradas castigadas*/
+/*Realizar un cursor que me permita saber las brigadas que han sido castigadas por calificación regular, cuántas veces han sido castigadas y el total de brigadas castigadas*/
 
 DELIMITER //
 
